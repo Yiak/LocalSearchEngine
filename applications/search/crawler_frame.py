@@ -10,12 +10,16 @@ from uuid import uuid4
 from urlparse import urlparse, parse_qs
 from uuid import uuid4
 
+from collections import defaultdict
+
 logger = logging.getLogger(__name__)
 LOG_HEADER = "[CRAWLER]"
+
 
 @Producer(Yyuan13Jianl9DiyuegLink)
 @GetterSetter(OneYyuan13Jianl9DiyuegUnProcessedLink)
 class CrawlerFrame(IApplication):
+
     app_id = "Yyuan13Jianl9Diyueg"
 
     def __init__(self, frame):
@@ -65,27 +69,33 @@ def extract_next_links(rawDataObj):
     
     Suggested library: lxml
     '''
-    print rawDataObj.url.encode("utf-8"), rawDataObj.url
+    # global most_out_count
+    # global most_out_link
+    # print rawDataObj.url.encode("utf-8"), rawDataObj.url
     try:
 
         # create an lxml HTML element object containing the page's entire HTML
         content_html = html.document_fromstring(rawDataObj.content)
 
-        # modifying every link in the document to make it absolute e.g. /sub.html -> http:xxx/sub.html
-        content_html.make_links_absolute(base_href="http://www.ics.uci.edu/", resolve_base_href=True)
+        # modifying every link in the document to make it absolute e.g. /path.html -> http:xxx/path.html
+        content_html.make_links_absolute("http://www.ics.uci.edu/")
 
         # The .iterlinks() method returns a generator of tuples that
         # yields the element, attribute, link, and position of every link on the page.
         # In this case, we are only interested in the link, which is at the index of 2 in every tuple.'
-        for item in content_html.make_links_absolute():
+        for item in content_html.iterlinks():
             outputLinks.append(item[2])
 
-    # to do: infinite trap
-    # to do: infinite loop site
-    # to do: max out link
+        # count most out link url
+        # if (len(outputLinks) > most_out_count) :
+        #     most_out_count = len(outputLinks)
+        #     most_out_link = rawDataObj.url
 
     except Exception as e:
         print e
+
+        # print most_out_count
+        # print most_out_link
     return outputLinks
 
 def is_valid(url):
@@ -100,18 +110,42 @@ def is_valid(url):
     # ParseResult(scheme='http', netloc='www.cwi.nl:80', path='/%7Eguido/Python.html',
     # params='', query='', fragment='')
     parsed = urlparse(url)
+
+    # global subdomain
+    # subdomain = defaultdict(int)
+    # subdomain[parsed.hostname]+=1
+    # print subdomain
+
     if parsed.scheme not in set(["http", "https"]):
         return False
     try:
+        paths = re.split("/", parsed.path)
+
         return ".ics.uci.edu" in parsed.hostname \
+            and not re.search("\?calender", parsed.path.lower()) \
+            and repeat_len(paths) \
             and not re.match(".*\.(css|js|bmp|gif|jpe?g|ico" + "|png|tiff?|mid|mp2|mp3|mp4"\
             + "|wav|avi|mov|mpeg|ram|m4v|mkv|ogg|ogv|pdf" \
             + "|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso|epub|dll|cnf|tgz|sha1" \
             + "|thmx|mso|arff|rtf|jar|csv"\
-            + "|rm|smil|wmv|swf|wma|zip|rar|gz|pdf)$", parsed.path.lower()) \
-            and not re.search("\?calender", parsed.path.lower())  # regex\?
+            + "|rm|smil|wmv|swf|wma|zip|rar|gz|pdf)$", parsed.path.lower())
+
+
 
     except TypeError:
         print ("TypeError for ", parsed)
         return False
 
+def repeat_len(paths):
+
+    # check len path of url
+    # check looping url trap
+    # valid_long = True if max([len(path) for path in paths]) < 100 else False
+    # valid_repeat = all([paths.count(path) < 5 for path in paths])
+
+    if (len(paths) > 15):
+        return False
+    for path in paths:
+        if (len(path) > 100):
+            return False
+    return all([paths.count(path) < 5 for path in paths])
