@@ -409,7 +409,6 @@ class ClientFrame(IFrame):  # pylint: disable=R0902
 
     def _push(self):
         if self._disconnected:
-            print "check in _push(), the connect is failed"
             return
         changes = self.object_store.get_record()
 
