@@ -98,7 +98,7 @@ class CrawlerFrame(IApplication):
                     self.subdomain_dict[rawDataObj.url[8: rawDataObj.url.index("ics.uci.edu")-1]] += 1
                 else:
                     self.subdomain_dict[rawDataObj.url[7: rawDataObj.url.index("ics.uci.edu")-1]] += 1
-                print "check here"
+            
                 # count most out link url
                 if len(outputLinks) > self.most_out_link_count:
                     self.most_out_link_url = rawDataObj.url 
@@ -106,11 +106,10 @@ class CrawlerFrame(IApplication):
             else:
                 self.invalid_url_count+=1
                 
-            print ("!!in extract, the valid_count is " , self.valid_url_count)
-            print ("!!in extract, the invalid_count is " , self.invalid_url_count)
-
-            print("the most_out_link_url is:",self.most_out_link_url)
-            print("the most_out_link_count is:",self.most_out_link_count)
+            # print ("!!in extract, the valid_count is " , self.valid_url_count)
+            # print ("!!in extract, the invalid_count is " , self.invalid_url_count)
+            # print("the most_out_link_url is:",self.most_out_link_url)
+            # print("the most_out_link_count is:",self.most_out_link_count)
 
             if self.valid_url_count>3000:
                 raise EnvironmentError
@@ -122,10 +121,10 @@ class CrawlerFrame(IApplication):
             analytics.write("Analytics:\n")
             
             analytics.write("Valid url count:"+str(self.valid_url_count)+"\n")
-            analytics.write("Invalid url count:"+str(self.invalid_url_count)+"\n")
-            analytics.write("\nThe page with the most outlinks: {} has {} outlinks".format(self.most_out_link_url, self.most_out_link_count) +'\n') 
+            # analytics.write("Invalid url count:"+str(self.invalid_url_count)+"\n")
+            analytics.write("The page with the most outlinks: {} has {} outlinks".format(self.most_out_link_url, self.most_out_link_count) +'\n') 
             analytics.write("\nSubdomain pages count:\n")
-            for i in subdomain_dict.items():
+            for i in self.subdomain_dict.items():
                 analytics.write("Subdomain {} has {} pages\n".format(i[0], i[1])) 
             analytics.close() 
 
@@ -151,6 +150,22 @@ def is_valid(url):
     if parsed.scheme not in set(["http", "https"]):
         return False
 
+    if "ics.uci.edu" not in url:
+        return False
+
+    if len(parsed.query) > 45:    
+        return False
+    if "wics" in url:
+        return False
+    if "mailto:" in url:
+        return False
+    if str(url).count("/") > 8:      
+        return False
+    if not url.startswith("http"):  
+        return False
+    if url == None:      
+        return False
+ 
     #According to the info showed in amazon.ics.uci.edu, subdomain calendar should be avoided.
     if "calendar" in url:             
             return False
