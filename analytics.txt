@@ -1,0 +1,42 @@
+Analytics:
+Valid url count:3001
+The page with the most outlinks: https://www.ics.uci.edu/~eppstein/pubs/all.html has 1819 outlinks
+
+Subdomain pages count:
+Subdomain www has 1930 pages
+Subdomain sprout has 3 pages
+Subdomain sconce has 1 pages
+Subdomain ugradforms has 2 pages
+Subdomain jgarcia has 3 pages
+Subdomain w3 has 3 pages
+Subdomain sherlock has 5 pages
+Subdomain tippersweb has 1 pages
+Subdomain honors has 11 pages
+Subdomain www.informatics has 1 pages
+Subdomain mswe has 4 pages
+Subdomain transformativeplay has 15 pages
+Subdomain hombao has 5 pages
+Subdomain archive has 1 pages
+Subdomain asterix has 3 pages
+Subdomain www.graphics has 2 pages
+Subdomain fano has 230 pages
+Subdomain futurehealth has 13 pages
+Subdomain checkmate has 1 pages
+Subdomain ngs has 401 pages
+Subdomain mse has 2 pages
+Subdomain fr has 1 pages
+Subdomain mhcid has 19 pages
+Subdomain psearch has 1 pages
+Subdomain graphics has 4 pages
+Subdomain mailman has 3 pages
+Subdomain mcs has 28 pages
+Subdomain computableplant has 3 pages
+Subdomain webmail has 1 pages
+Subdomain flamingo has 39 pages
+Subdomain www-db has 1 pages
+Subdomain emj has 21 pages
+Subdomain cert has 4 pages
+Subdomain cloudberry has 2 pages
+Subdomain evoke has 120 pages
+Subdomain isg has 7 pages
+Subdomain vision has 110 pages

@@ -1,0 +1,13 @@
+The following commands may only work for team-53.
+
+To run the crawler.
+python applications/search/crawler.py -a amazon.ics.uci.edu -p 9200
+
+To check frontier status.
+python applications/search/check_frontier.py -a amazon.ics.uci.edu -p 9200
+
+To reset frontier progress.
+python applications/search/reset_frontier.py -a amazon.ics.uci.edu -p 9200
+
+To clean only those urls from frontier that no longer satisfy your is_valid function.
+python applications/search/delete_invalids_from_frontier.py -a amazon.ics.uci.edu -p 9200
